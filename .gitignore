@@ -1,3 +1,7 @@
+# R presentation(s)
+01-chronicler-intro/01-chronicler-intro-figure
+01-chronicler-intro/*.md
+
 # History files
 .Rhistory
 .Rapp.history
