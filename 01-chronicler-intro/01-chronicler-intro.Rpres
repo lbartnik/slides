@@ -1,28 +1,166 @@
-Chronicler: Why history is not enough
+Chronicler: Which lessons history won't teach you
 ========================================================
 author: Lukasz A. Bartnik
 date: 2018-10-10
 autosize: true
+css: adjust-code-size.css
 
-First Slide
+
+
+R history mechanism
 ========================================================
 
-For more details on authoring R presentations please visit <https://support.rstudio.com/hc/en-us/articles/200486468>.
-
-- Bullet 1
-- Bullet 2
-- Bullet 3
-
-Slide With Code
-========================================================
+Commands
 
 ```{r}
-summary(cars)
+a <- 1
+b <- 2
+c <- a + b
+z <- 100
+a <- z * c
 ```
 
-Slide With Plot
+_stored in history_
+
+***
+
+Objects in R session
+
+```{r eval=FALSE}
+a = 1
+a = 1, b = 2
+a = 1, b = 2, c = 3
+a = 1, b = 2, c = 3, z = 100
+a = 300, b = 2, c = 3, z = 100
+```
+
+_stored in... globalenv? .RData?_
+
+
+
+R history mechanism + repository of objects
 ========================================================
 
-```{r, echo=FALSE}
-plot(cars)
+Commands
+
+```{r}
+a <- 1
+b <- 2
+c <- a + b
+z <- 100
+a <- z * c
 ```
+
+_stored in history_
+
+***
+
+Objects - all
+
+```{r eval=FALSE}
+a = 1
+a = 1, b = 2
+a = 1, b = 2, c = 3
+a = 1, b = 2, c = 3, z = 100
+a = 1, a = 300, b = 2, c = 3, z = 100
+```
+
+_stored in a repository of objects_
+
+
+
+R history mechanism + repository of objects
+========================================================
+
+But what about...
+
+  * plots?
+  * console printouts?
+  * lineage?
+
+
+R history mechanism + repository of artifacts
+========================================================
+
+Commands
+
+```{r}
+a <- 1
+b <- 2
+c <- a + b
+z <- 100
+a <- z * c
+```
+
+_stored in history_
+
+***
+
+**Artifacts**
+
+```{r eval=FALSE}
+a = 1
+a = 1, b = 2
+a = 1, b = 2, c = 3
+a = 1, b = 2, c = 3, z = 100
+a = 1, a = 300, b = 2, c = 3, z = 100
+```
+
+_stored in a repository of **artifacts**_
+
+
+
+Repository of Artifacts
+========================================================
+
+Stores artifacts:
+
+  * data (data frames, lists, vectors)
+  * models
+  * code (functions)
+  * plots
+  * console printouts
+
+...and tracks:
+
+  * lineage (parent artifacts: data and code)
+  * expressions (in case R history gets cleaned)
+
+
+Repository of Artifacts
+========================================================
+left: 60%
+
+Commands
+
+```{r eval=FALSE}
+input <- read_csv("london_meters.csv")
+input # print on the console
+
+plot(input$time, input$kWh)
+
+m <- lm(kWh ~ dow(time) + hour(time), input)
+summary(m)
+
+input %<>% mutate(value = kWh/sd(kWh))
+m <- lm(value ~ dow(time) + hour(time), input)
+```
+
+***
+
+Artifacts
+
+```
+input
+
+
+input <plot>
+
+input m <plot>
+
+
+input input m <plot>
+input input m m <plot>
+```
+
+
