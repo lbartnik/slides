@@ -164,3 +164,21 @@ input input m m <plot>
 ```
 
 
+Browsing Artifacts
+========================================================
+
+![RStudio with Artifact Browser, a screenshort](artifact-browser.png)
+
+
+
+Browsing Artifacts
+========================================================
+
+```
+↳ all elements 
+    ↳ input data.frame[2785, 3]
+        ↳ <plot> 
+        ↳ input data.frame[2785, 4]
+           ↳ m lm adjR2:0.24 AIC:7129 df:3
+        ↳ m lm adjR2:0.24 AIC:3055 df:3
+```
