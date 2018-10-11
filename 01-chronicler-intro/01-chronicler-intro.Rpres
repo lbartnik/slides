@@ -6,6 +6,16 @@ autosize: true
 css: adjust-code-size.css
 
 
+Why this talk?
+========================================================
+
+Keeping track of **my** work:
+
+  * store files (code, data, plots) in a project folder (**filesystem**)
+  * build **narrative** in RMarkdown documents and R notebooks
+  * **iterate**, version all of the above, e.g. record checkpoints in **git**
+  * hope that there won't be **serious gaps** in the **story** that I am trying to tell
+
 
 R history mechanism
 ========================================================
@@ -38,7 +48,7 @@ _stored in... globalenv? .RData?_
 
 
 
-R history mechanism + repository of objects
+R history + repository of objects
 ========================================================
 
 Commands
@@ -55,7 +65,7 @@ _stored in history_
 
 ***
 
-Objects - all
+Objects, **all versions**
 
 ```{r eval=FALSE}
 a = 1
@@ -69,7 +79,7 @@ _stored in a repository of objects_
 
 
 
-R history mechanism + repository of objects
+R history + repository of objects
 ========================================================
 
 But what about...
@@ -77,43 +87,15 @@ But what about...
   * plots?
   * console printouts?
   * lineage?
+  * code?
 
-
-R history mechanism + repository of artifacts
-========================================================
-
-Commands
-
-```{r}
-a <- 1
-b <- 2
-c <- a + b
-z <- 100
-a <- z * c
-```
-
-_stored in history_
-
-***
-
-**Artifacts**
-
-```{r eval=FALSE}
-a = 1
-a = 1, b = 2
-a = 1, b = 2, c = 3
-a = 1, b = 2, c = 3, z = 100
-a = 1, a = 300, b = 2, c = 3, z = 100
-```
-
-_stored in a repository of **artifacts**_
-
+Those are not R objects - these are **artifacts**.
 
 
 Repository of Artifacts
 ========================================================
 
-Stores artifacts:
+Stores:
 
   * data (data frames, lists, vectors)
   * models
@@ -121,13 +103,18 @@ Stores artifacts:
   * plots
   * console printouts
 
-...and tracks:
-
-  * lineage (parent artifacts: data and code)
-  * expressions (in case R history gets cleaned)
-
 
 Repository of Artifacts
+========================================================
+
+
+...and keeps track of:
+
+  * lineage - parent artifacts
+  * expressions and functions
+
+
+Example | transform and model data
 ========================================================
 left: 60%
 
@@ -163,18 +150,22 @@ input input m <plot>
 input input m m <plot>
 ```
 
+_stored in a repository of **artifacts**_
 
-Browsing Artifacts
+
+Example | browse artifacts
 ========================================================
 
 ![RStudio with Artifact Browser, a screenshort](artifact-browser.png)
 
 
 
-Browsing Artifacts
+Example | browse artifacts
 ========================================================
 
-```
+Zoom in:
+
+```{original}
 ↳ all elements 
     ↳ input data.frame[2785, 3]
         ↳ <plot> 
@@ -182,3 +173,29 @@ Browsing Artifacts
            ↳ m lm adjR2:0.24 AIC:7129 df:3
         ↳ m lm adjR2:0.24 AIC:3055 df:3
 ```
+
+
+
+Useful? Is it even useful?
+========================================================
+
+Use case: find the artifact matching a file in my project directory.
+
+  * show the artifact itself
+  * show its origin - the full lineage
+  * make it reproducible
+
+
+Match file with artifact
+========================================================
+
+```{r browse,eval=FALSE,class.source='original'}
+a <- identify('hourly_22_48/take_5.png')
+a
+#> artifact fb132bca
+#> with(data, plot(TPR, FPR))
+
+browse('fb132bca')
+browse_Rmd('fb132bca')
+```
+
