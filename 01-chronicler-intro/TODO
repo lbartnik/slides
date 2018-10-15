@@ -1,0 +1,10 @@
+* link to Docker image/instructions next to each example
+
+* two sample project in the Docker image: iris models and london meters
+
+* automatic feature: open project from the current working dir or show
+  a GUI dialog (rstudioapi) if there are multiple projects or multiple
+  branches
+
+* browser: highlight the currently selected item, highlight its ancestors,
+  show its full explanation data (expression and sample/plot)
