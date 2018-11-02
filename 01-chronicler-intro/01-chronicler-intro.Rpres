@@ -1,4 +1,4 @@
-Chronicler: Which lessons history won't teach you
+Which lessons history doesn't teach
 ========================================================
 author: Lukasz A. Bartnik
 date: 2018-10-10
@@ -6,115 +6,62 @@ autosize: true
 css: adjust-code-size.css
 
 
-Why this talk?
+Meet Joe.
+========================================================
+![Lego Joe](lego-scientist.jpg)
+
+Meet Joe. Joe makes sense of data.
+========================================================
+![Lego Joe](lego-scientist.jpg)
+![Lego Joe](lego-pile.jpg)
+
+Meet Joe. Joe makes sense of data. It's messy.
+========================================================
+![Lego Joe](lego-scientist.jpg)
+![Lego Joe](lego-pile.jpg)
+![Lego Joe](lego-random-1.png)
+![Lego Joe](lego-random-2.jpg)
+
+
+Why exactly is it messy?
 ========================================================
 
-Keeping track of **my** work:
+* Lots of learning about the data, lots of insights
+* Testing and developing multiple ideas
+* Lots of back-and-forth between refining and trying out new things 
+* Lots of code, scripts, plots, data files, model objects
+* ...and you have to keep track of all of that!
 
-  * store files (code, data, plots) in a project folder (**filesystem**)
-  * build **narrative** in RMarkdown documents and R notebooks
-  * **iterate**, version all of the above, e.g. record checkpoints in **git**
-  * hope that there won't be **serious gaps** in the **story** that I am trying to tell
+
+So, what can we do?
+========================================================
+Power to the People!
+* Software engineering suggests: architect your code carefully,
+  write tests, use code versioning
+* Data engineering adds: make your research reproducible:
+  RMarkdown, Jupyter notebooks, etc.
+* https://github.com/alexiscarter/BIOME/blob/master/Day3_AM/Lecture7_Reproducibility.pdf
 
 
-R history mechanism
+Some things might still go missing
+========================================================
+* Writing RMarkdown slows things down, why not experiment
+  first and document later?
+* Or what if we documented the wrong thing? Re-creating
+  that model or plot will take so long...
+* Or?...
+
+
+Full history of R session(s)
 ========================================================
 
-Commands
-
-```{r}
-a <- 1
-b <- 2
-c <- a + b
-z <- 100
-a <- z * c
-```
-
-_stored in history_
-
-***
-
-Objects in R session
-
-```{r eval=FALSE}
-a = 1
-a = 1, b = 2
-a = 1, b = 2, c = 3
-a = 1, b = 2, c = 3, z = 100
-a = 300, b = 2, c = 3, z = 100
-```
-
-_stored in... globalenv? .RData?_
+  * extend the standard R history
+  * keep track of every command, R object, plot, etc.
+  * code: expressions and functions
+  * lineage - match artifacts with their parents
 
 
-
-R history + repository of objects
-========================================================
-
-Commands
-
-```{r}
-a <- 1
-b <- 2
-c <- a + b
-z <- 100
-a <- z * c
-```
-
-_stored in history_
-
-***
-
-Objects, **all versions**
-
-```{r eval=FALSE}
-a = 1
-a = 1, b = 2
-a = 1, b = 2, c = 3
-a = 1, b = 2, c = 3, z = 100
-a = 1, a = 300, b = 2, c = 3, z = 100
-```
-
-_stored in a repository of objects_
-
-
-
-R history + repository of objects
-========================================================
-
-But what about...
-
-  * plots?
-  * console printouts?
-  * lineage?
-  * code?
-
-Those are not R objects - these are **artifacts**.
-
-
-Repository of Artifacts
-========================================================
-
-Stores:
-
-  * data (data frames, lists, vectors)
-  * models
-  * code (functions)
-  * plots
-  * console printouts
-
-
-Repository of Artifacts
-========================================================
-
-
-...and keeps track of:
-
-  * lineage - parent artifacts
-  * expressions and functions
-
-
-Example | transform and model data
+Plain R history
 ========================================================
 left: 60%
 
@@ -133,6 +80,50 @@ input %<>% mutate(value = kWh/sd(kWh))
 m <- lm(value ~ dow(time) + hour(time), input)
 ```
 
+_stored in history_
+
+
+***
+
+Objects in R session
+
+```
+input
+
+
+input
+
+input m
+
+
+input m
+input m
+```
+
+_stored in... globalenv? .RData?_
+
+
+R history + repository of artifacts
+========================================================
+
+Commands
+
+```{r eval=FALSE}
+input <- read_csv("london_meters.csv")
+input # print on the console
+
+plot(input$time, input$kWh)
+
+m <- lm(kWh ~ dow(time) + hour(time), input)
+summary(m)
+
+input %<>% mutate(value = kWh/sd(kWh))
+m <- lm(value ~ dow(time) + hour(time), input)
+```
+
+_stored in repository of artifacts_
+
+
 ***
 
 Artifacts
@@ -150,10 +141,11 @@ input input m <plot>
 input input m m <plot>
 ```
 
-_stored in a repository of **artifacts**_
+_stored in repository of artifacts_
 
 
-Example | browse artifacts
+
+Browser
 ========================================================
 
 ![RStudio with Artifact Browser, a screenshort](artifact-browser.png)
